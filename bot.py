@@ -31,9 +31,9 @@ def change(*args: str) -> str:
     return 'Done!'
 
 def get_command(words: str) -> Callable:
-    for key in COMMANDS_DICT.keys():
+    for key in commands_dict.keys():
         if re.search(fr'\b{words[0].lower()}\b', str(key)):
-            func = COMMANDS_DICT[key]
+            func = commands_dict[key]
             return func
     raise KeyError("This command doesn't exist")
 
@@ -42,13 +42,13 @@ def get_contacts() -> dict:
         fh.seek(0)
         text = fh.readlines()
 
-    contacts = {}
+    contacts1 = {}
     
     for line in text:
         words = line.split(': ')
-        contacts.update({words[0]:words[1].rstrip('\n')})
+        contacts1.update({words[0]:words[1].rstrip('\n')})
     
-    return contacts
+    return contacts1
 
 @decorator_input
 def goodbye() -> str:
@@ -76,18 +76,7 @@ def write_contacts() -> None:
     with open('contacts.txt', 'w') as fh:
         fh.write(''.join(text))
 
-COMMANDS_DICT = {('hello','hi'):hello,
-                 ('add',):add,
-                 ('change',):change,
-                 ('phone',):phone,
-                 ('showall',):showall,
-                 ('goodbye','close','exit','quit'):goodbye
-}
-
 def main():
-
-    global contacts
-    contacts = get_contacts()
 
     while True:
 
@@ -103,6 +92,16 @@ def main():
             write_contacts()
             break
 
+commands_dict = {('hello','hi', 'hey'):hello,
+                 ('add',):add,
+                 ('change',):change,
+                 ('phone',):phone,
+                 ('showall',):showall,
+                 ('goodbye','close','exit','quit'):goodbye
+}
+
+contacts = get_contacts()
+
 if __name__ == '__main__':
     main()
-   
+
