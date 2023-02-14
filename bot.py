@@ -42,13 +42,13 @@ def get_contacts() -> dict:
         fh.seek(0)
         text = fh.readlines()
 
-    contacts1 = {}
+    contacts = {}
     
     for line in text:
         words = line.split(': ')
-        contacts1.update({words[0]:words[1].rstrip('\n')})
+        contacts.update({words[0]:words[1].rstrip('\n')})
     
-    return contacts1
+    return contacts
 
 @decorator_input
 def goodbye() -> str:
